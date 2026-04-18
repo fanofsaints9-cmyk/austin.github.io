@@ -26,9 +26,9 @@ const SITE = {
     heading_en: "ABOUT",
     text_ru: "Я — нейрокреатор. Работаю на стыке технологий и визуального искусства: генерирую изображения, создаю видео и разрабатываю уникальные визуальные концепции с помощью ИИ-инструментов.",
     text_en: "I'm an AI creator. I work at the intersection of technology and visual art — generating images, producing video and building unique visual concepts using AI tools.",
-    photo: "https://i.imgur.com/TdZ8v9p.jpeg",
+    photo: "https://i.ibb.co/kgJSZdyW/Edit-the-existing-202604181848.png",
     facts: [
-      { icon: "⚡", ru: "ИИ-инструменты: Kling 3.0, Nano Banana Pro, Seedance 2.0", en: "AI tools: Kling 3.0, Nano Banana Pro, Seedance 2.0" },
+      { icon: "⚡️", ru: "ИИ-инструменты: Kling 3.0, Nano Banana Pro, Seedance 2.0", en: "AI tools: Kling 3.0, Nano Banana Pro, Seedance 2.0" },
       { icon: "🎨", ru: "Предметная съёмка, статика и анимация, брендинг", en: "Product visuals, static & animation, branding" },
       { icon: "🌐", ru: "Работаю удалённо с клиентами по всему миру", en: "Working remotely with clients worldwide" },
       { icon: "🔮", ru: "Каждый проект — уникальный визуальный нарратив", en: "Every project is a unique visual narrative" },
@@ -47,15 +47,14 @@ const SITE = {
     { url: "https://i.imgur.com/rXS1sV4.jpeg", title_ru: "Проект 09", title_en: "Project 09", tag: "ANIME ART",     tag_ru: "АНИМЕ" },
   ],
 
-  /* КАК ДОБАВИТЬ ВИДЕО:
-     type: "kinescope" — id берёшь из ссылки kinescope.io/ВОТ_ЭТО
-     type: "youtube"   — id берёшь из youtube.com/watch?v=ВОТ_ЭТО  */
+/* КАК ДОБАВИТЬ ПРЕВЬЮ К ВИДЕО:
+     добавь поле thumb: "https://ссылка-на-картинку"
+     если thumb не указан — будет серый экран с кнопкой плей */
   videos: [
-    { type: "kinescope", id: "sq44U81J43xD6PDsi62YXZ", title_ru: "Ролик 01", title_en: "Video 01", desc_ru: "Музыкальный клип",                   desc_en: "Music video" },
-    { type: "kinescope", id: "43aQ9269yDxHoUtMRKWoPb", title_ru: "Ролик 02", title_en: "Video 02", desc_ru: "Нейромодель",                          desc_en: "Neural model" },
-    { type: "kinescope", id: "6kWtoeYgDmXzq3kpNZXjEj", title_ru: "Ролик 03", title_en: "Video 03", desc_ru: "Предметная съёмка с нейромоделью",     desc_en: "Product shoot with neural model" },
-    { type: "kinescope", id: "cTLyDb27uKt8esCjriDy2H", title_ru: "Ролик 04", title_en: "Video 04", desc_ru: "Нейромодель",                          desc_en: "Neural model" },
-  ],
+    { type: "kinescope", id: "sq44U81J43xD6PDsi62YXZ", thumb: "https://i.imgur.com/GZ4FPAq.png", title_ru: "Ролик 01", title_en: "Video 01", desc_ru: "Музыкальный клип",                   desc_en: "Music video" },
+    { type: "kinescope", id: "43aQ9269yDxHoUtMRKWoPb", thumb: "https://i.imgur.com/rxDglRL.png", title_ru: "Ролик 02", title_en: "Video 02", desc_ru: "Нейромодель",                          desc_en: "Neural model" },
+    { type: "kinescope", id: "6kWtoeYgDmXzq3kpNZXjEj", thumb: "https://i.imgur.com/5ZPJ1cp.png", title_ru: "Ролик 03", title_en: "Video 03", desc_ru: "Предметная съёмка с нейромоделью",     desc_en: "Product shoot with neural model" },
+    { type: "kinescope", id: "cTLyDb27uKt8esCjriDy2H", thumb: "https://i.imgur.com/xXoJhNk.png", title_ru: "Ролик 04", title_en: "Video 04", desc_ru: "Нейромодель",                          desc_en: "Neural model" },
 
   contacts: {
     telegram: "lAvstxnl",
@@ -389,12 +388,12 @@ section { position: relative; z-index: 2; }
 #vmi { position: relative; width: 90vw; max-width: 960px; }
 #vmi iframe { width: 100%; aspect-ratio: 16/9; border: 1px solid var(--bord2); display: block; }
 #vm-close {
-  position: absolute; top: -46px; right: 0;
-  font-size: 13px; letter-spacing: 2px;
+  position: fixed; top: 20px; right: 24px; z-index: 1001;
+  font-size: 12px; letter-spacing: 2px;
   color: var(--muted); cursor: pointer;
   background: rgba(0,230,118,.06); border: 1px solid var(--bord);
   font-family: var(--f-mono); transition: all .2s;
-  padding: 6px 14px; display: flex; align-items: center; gap: 8px;
+  padding: 8px 16px; display: flex; align-items: center; gap: 8px;
 }
 #vm-close:hover { color: var(--green); background: rgba(0,230,118,.12); border-color: var(--green); }
 
@@ -539,8 +538,8 @@ footer { padding: 22px 48px; border-top: 1px solid var(--bord2); display: flex; 
 
 <!-- Video modal -->
 <div id="vm">
+  <button id="vm-close">✕ <span id="vm-close-label">ЗАКРЫТЬ</span></button>
   <div id="vmi">
-    <button id="vm-close">✕ <span id="vm-close-label">ЗАКРЫТЬ</span></button>
     <iframe id="v-ifr" src="" frameborder="0" allowfullscreen
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
   </div>
@@ -666,9 +665,12 @@ footer { padding: 22px 48px; border-top: 1px solid var(--bord2); display: flex; 
       S.videos.forEach(function(v,i){
         var card=document.createElement('div'); card.className='video-card';
         var isK=v.type==='kinescope';
-        var th=isK
-          ?'<div class="vthumb"><div class="vthumb-ph"><div class="vplay-wrap"><div class="vplay">▶</div></div></div></div>'
-          :'<div class="vthumb"><img src="https://img.youtube.com/vi/'+v.id+'/maxresdefault.jpg" loading="lazy"><div class="vplay-wrap"><div class="vplay">▶</div></div></div>';
+        var hasThumb = v.thumb && v.thumb.length > 0;
+        var th = hasThumb
+          ? '<div class="vthumb"><img src="'+v.thumb+'" loading="lazy"><div class="vplay-wrap"><div class="vplay">▶</div></div></div>'
+          : (isK
+            ? '<div class="vthumb"><div class="vthumb-ph"><div class="vplay-wrap"><div class="vplay">▶</div></div></div></div>'
+            : '<div class="vthumb"><img src="https://img.youtube.com/vi/'+v.id+'/maxresdefault.jpg" loading="lazy"><div class="vplay-wrap"><div class="vplay">▶</div></div></div>');
         card.innerHTML=th+
           '<div class="vmeta"><div class="vidx">// '+String(i+1).padStart(2,'0')+'</div>'+
           '<div class="vtitle" data-vi="'+i+'"></div>'+
