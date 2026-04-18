@@ -25,11 +25,11 @@ const SITE = {
     heading_ru: "КТО Я",
     heading_en: "ABOUT",
     text_ru: "Я — нейрокреатор. Работаю на стыке технологий и визуального искусства: генерирую изображения, создаю видео и разрабатываю уникальные визуальные концепции с помощью ИИ-инструментов.",
-    text_en: "I'm an AI creator. I work at the intersection of technology and visual art — generating images, producing video and building unique visual concepts using AI tools.",
+    text_en: "I'm a neural creator. I work at the intersection of technology and visual art — generating images, producing video and building unique visual concepts using AI tools.",
     photo: "https://i.ibb.co/kgJSZdyW/Edit-the-existing-202604181848.png",
     facts: [
-      { icon: "⚡️", ru: "ИИ-инструменты: Kling 3.0, Nano Banana Pro, Seedance 2.0", en: "AI tools: Kling 3.0, Nano Banana Pro, Seedance 2.0" },
-      { icon: "🎨", ru: "Предметная съёмка, статика и анимация, брендинг", en: "Product visuals, static & animation, branding" },
+      { icon: "⚡", ru: "AI-инструменты: Kling 3.0, Nano Banana Pro, Seedance 2.0", en: "AI tools: Kling 3.0, Nano Banana Pro, Seedance 2.0" },
+      { icon: "🎨", ru: "Специализация: предметная съёмка, статика и анимация, брендинг", en: "Focus: product visuals, static & animation, branding" },
       { icon: "🌐", ru: "Работаю удалённо с клиентами по всему миру", en: "Working remotely with clients worldwide" },
       { icon: "🔮", ru: "Каждый проект — уникальный визуальный нарратив", en: "Every project is a unique visual narrative" },
     ]
@@ -38,7 +38,7 @@ const SITE = {
   photos: [
     { url: "https://i.imgur.com/zL31Q0A.jpeg", title_ru: "Проект 01", title_en: "Project 01", tag: "NEURAL MODEL",  tag_ru: "НЕЙРОМОДЕЛЬ" },
     { url: "https://i.imgur.com/HoxYVrN.jpeg", title_ru: "Проект 02", title_en: "Project 02", tag: "PRODUCT SHOT",  tag_ru: "ПРЕДМЕТНАЯ" },
-    { url: "https://i.imgur.com/0300yLQ.jpeg", title_ru: "Проект 03", title_en: "Project 03", tag: "PREVIEW",       tag_ru: "ПРЕВЬЮ" },
+    { url: "https://i.imgur.com/0300yLQ.jpeg", title_ru: "Проект 03", title_en: "Project 03", tag: "BRANDING",      tag_ru: "БРЕНДИНГ" },
     { url: "https://i.imgur.com/KX3CM5c.jpeg", title_ru: "Проект 04", title_en: "Project 04", tag: "NEURAL MODEL",  tag_ru: "НЕЙРОМОДЕЛЬ" },
     { url: "https://i.imgur.com/xjPUqXt.jpeg", title_ru: "Проект 05", title_en: "Project 05", tag: "BRANDING",      tag_ru: "БРЕНДИНГ" },
     { url: "https://i.imgur.com/p35Zsem.jpeg", title_ru: "Проект 06", title_en: "Project 06", tag: "PREVIEW",       tag_ru: "ПРЕВЬЮ" },
@@ -47,9 +47,10 @@ const SITE = {
     { url: "https://i.imgur.com/rXS1sV4.jpeg", title_ru: "Проект 09", title_en: "Project 09", tag: "ANIME ART",     tag_ru: "АНИМЕ" },
   ],
 
-/* КАК ДОБАВИТЬ ПРЕВЬЮ К ВИДЕО:
-     добавь поле thumb: "https://ссылка-на-картинку"
-     если thumb не указан — будет серый экран с кнопкой плей */
+  /* КАК ДОБАВИТЬ ВИДЕО:
+     type: "kinescope" — id берёшь из ссылки kinescope.io/ВОТ_ЭТО
+     type: "youtube"   — id берёшь из youtube.com/watch?v=ВОТ_ЭТО
+     thumb: "" — вставь ссылку на превью, если нет — серый экран */
   videos: [
     { type: "kinescope", id: "sq44U81J43xD6PDsi62YXZ", thumb: "https://i.imgur.com/GZ4FPAq.png", title_ru: "Ролик 01", title_en: "Video 01", desc_ru: "Музыкальный клип",                   desc_en: "Music video" },
     { type: "kinescope", id: "43aQ9269yDxHoUtMRKWoPb", thumb: "https://i.imgur.com/rxDglRL.png", title_ru: "Ролик 02", title_en: "Video 02", desc_ru: "Нейромодель",                          desc_en: "Neural model" },
@@ -61,7 +62,7 @@ const SITE = {
     telegram: "lAvstxnl",
     email:    "fanofsaints9@gmail.com",
     cta_ru:   "Открыт к новым проектам. Напишите — обсудим.",
-    cta_en:   "Open to new projects. Any ideas — let's discuss.",
+    cta_en:   "Open to new projects. Drop a message — let's talk.",
   }
 };
 /* ================================================================ */
@@ -389,13 +390,14 @@ section { position: relative; z-index: 2; }
 #vmi { position: relative; width: 90vw; max-width: 960px; }
 #vmi iframe { width: 100%; aspect-ratio: 16/9; border: 1px solid var(--bord2); display: block; }
 #vm-close {
-  position: fixed; top: 20px; right: 24px; z-index: 1001;
+  position: fixed; top: 20px; right: 24px; z-index: 1002;
   font-size: 12px; letter-spacing: 2px;
   color: var(--muted); cursor: pointer;
   background: rgba(0,230,118,.06); border: 1px solid var(--bord);
   font-family: var(--f-mono); transition: all .2s;
-  padding: 8px 16px; display: flex; align-items: center; gap: 8px;
+  padding: 8px 16px; display: none; align-items: center; gap: 8px;
 }
+#vm.open #vm-close { display: flex; }
 #vm-close:hover { color: var(--green); background: rgba(0,230,118,.12); border-color: var(--green); }
 
 /* ── CONTACT ────────────────────────────── */
