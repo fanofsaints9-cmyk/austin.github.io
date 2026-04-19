@@ -14,7 +14,8 @@
 <meta name="twitter:description" content="Нейрокреатор. Предметная съёмка, статика и анимация, брендинг.">
 <meta name="twitter:image" content="https://i.imgur.com/GZ4FPAq.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=JetBrains+Mono:wght@300;400;700&family=Anonymous+Pro:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=JetBrains+Mono:wght@300;400;700&family=Anonymous+Pro:wght@400;700&display=swap&font-display=swap" rel="stylesheet">
 
 <script>
 /* ================================================================
@@ -113,18 +114,20 @@ body {
   transform: translate(-50%,-50%);
   transition: width .12s, height .12s, background .12s;
   mix-blend-mode: exclusion;
+  will-change: left, top;
 }
 #cur-dot {
   position: fixed; width: 3px; height: 3px;
   background: var(--green); border-radius: 50%;
   pointer-events: none; z-index: 9999;
   transform: translate(-50%,-50%);
+  will-change: left, top;
 }
 .cur-lg { width: 36px !important; height: 36px !important; background: rgba(0,230,118,.06) !important; }
 @media (max-width: 900px) { #cur, #cur-dot { display: none; } body { cursor: auto; } }
 
 /* ── MATRIX RAIN ────────────────────────── */
-#mcanvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .16; }
+#mcanvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .16; will-change: contents; }
 
 /* ── GRAIN ──────────────────────────────── */
 body::after {
@@ -192,7 +195,7 @@ nav {
 .nav-burger span { width: 22px; height: 1px; background: var(--green); display: block; }
 
 /* ── SECTION COMMONS ────────────────────── */
-section { position: relative; z-index: 2; }
+section { position: relative; z-index: 2; contain: layout; }
 .s-tag {
   font-size: 10px; letter-spacing: 4px; color: var(--dim);
   margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
@@ -604,30 +607,58 @@ footer { padding: 22px 48px; border-top: 1px solid var(--bord2); display: flex; 
   var c = document.getElementById('mcanvas'), ctx = c.getContext('2d');
   var W, H, cols, drops;
   var ch = 'アイウエオカキクケコサシスセソ0123456789ABCDEF<>{}[]/\\|';
+  var isMobile = window.innerWidth < 900;
+  var colSize = isMobile ? 26 : 18;
+  var paused = false;
+  var raf, lastFrame = 0;
+  var FPS = isMobile ? 20 : 24;
+  var INTERVAL = 1000 / FPS;
+
   function init(){
     W = c.width = window.innerWidth;
     H = c.height = window.innerHeight;
-    cols = Math.floor(W / 18);
+    isMobile = W < 900;
+    colSize = isMobile ? 26 : 18;
+    FPS = isMobile ? 20 : 24;
+    INTERVAL = 1000 / FPS;
+    cols = Math.floor(W / colSize);
     drops = [];
-    for(var i=0;i<cols;i++) drops[i] = Math.random() * -(H/18);
+    for(var i=0;i<cols;i++) drops[i] = Math.random() * -(H/colSize);
   }
-  function draw(){
+
+  function draw(ts){
+    raf = requestAnimationFrame(draw);
+    if(paused) return;
+    if(ts - lastFrame < INTERVAL) return;
+    lastFrame = ts;
     ctx.fillStyle = 'rgba(10,10,10,0.052)';
     ctx.fillRect(0,0,W,H);
     ctx.font = '13px IBM Plex Mono, monospace';
     for(var i=0;i<cols;i++){
-      var y = drops[i]*18;
+      var y = drops[i]*colSize;
       ctx.fillStyle = '#9effc8';
-      ctx.fillText(ch[Math.floor(Math.random()*ch.length)], i*18, y);
+      ctx.fillText(ch[Math.floor(Math.random()*ch.length)], i*colSize, y);
       ctx.fillStyle = 'rgba(0,230,118,0.52)';
-      ctx.fillText(ch[Math.floor(Math.random()*ch.length)], i*18, y-18);
+      ctx.fillText(ch[Math.floor(Math.random()*ch.length)], i*colSize, y-colSize);
       if(y > H && Math.random() > .975) drops[i] = 0;
       drops[i] += 0.44;
     }
   }
+
+  /* Пауза когда вкладка скрыта */
+  document.addEventListener('visibilitychange', function(){
+    paused = document.hidden;
+  });
+
+  /* Debounce resize */
+  var resizeTimer;
+  window.addEventListener('resize', function(){
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(init, 200);
+  });
+
   init();
-  window.addEventListener('resize', init);
-  setInterval(draw, 44);
+  raf = requestAnimationFrame(draw);
 })();
 
 /* ── MAIN ───────────────────────────────── */
@@ -667,10 +698,11 @@ footer { padding: 22px 48px; border-top: 1px solid var(--bord2); display: flex; 
       else { pf.innerHTML='<div class="about-ph"><span style="font-size:36px">👤</span>ADD PHOTO</div>'; }
     }
     var fe = document.getElementById('about-facts');
-    fe.innerHTML='';
+    var factsHTML = '';
     S.about.facts.forEach(function(f){
-      fe.innerHTML+='<div class="about-fact"><div class="af-icon">'+f.icon+'</div><div class="af-text">'+(ru?f.ru:f.en)+'</div></div>';
+      factsHTML+='<div class="about-fact"><div class="af-icon">'+f.icon+'</div><div class="af-text">'+(ru?f.ru:f.en)+'</div></div>';
     });
+    fe.innerHTML = factsHTML;
 
     /* photos */
     document.getElementById('photos-title').textContent = ru?'РАБОТЫ':'WORKS';
@@ -803,9 +835,15 @@ footer { padding: 22px 48px; border-top: 1px solid var(--bord2); display: flex; 
   /* ── CURSOR ─────────────────────────────── */
   var cur=document.getElementById('cur'), dot=document.getElementById('cur-dot');
   if(cur){
+    var curRaf=false;
+    var cx=0,cy=0;
     document.addEventListener('mousemove',function(e){
-      cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';
-      dot.style.left=e.clientX+'px';dot.style.top=e.clientY+'px';
+      cx=e.clientX; cy=e.clientY;
+      if(!curRaf){ curRaf=true; requestAnimationFrame(function(){
+        cur.style.left=cx+'px'; cur.style.top=cy+'px';
+        dot.style.left=cx+'px'; dot.style.top=cy+'px';
+        curRaf=false;
+      }); }
     });
     document.querySelectorAll('a,button,.gallery-item,.video-card').forEach(function(el){
       el.addEventListener('mouseenter',function(){cur.classList.add('cur-lg');});
