@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AUSTIN — AI Creator</title>
+<meta name="description" content="Нейрокреатор. Генерирую изображения, создаю видео и уникальные визуальные концепции с помощью ИИ-инструментов. Kling 3.0, Nano Banana Pro, Seedance 2.0.">
+<meta property="og:title" content="AUSTIN — AI Creator">
+<meta property="og:description" content="Нейрокреатор. Предметная съёмка, статика и анимация, брендинг. Работаю удалённо с клиентами по всему миру.">
+<meta property="og:image" content="https://i.imgur.com/GZ4FPAq.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AUSTIN — AI Creator">
+<meta name="twitter:description" content="Нейрокреатор. Предметная съёмка, статика и анимация, брендинг.">
+<meta name="twitter:image" content="https://i.imgur.com/GZ4FPAq.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=JetBrains+Mono:wght@300;400;700&family=Anonymous+Pro:wght@400;700&display=swap" rel="stylesheet">
 
@@ -28,10 +37,10 @@ const SITE = {
     text_en: "I'm an AI creator. I work at the intersection of technology and visual art — generating images, producing video and building unique visual concepts using AI tools.",
     photo: "https://i.ibb.co/kgJSZdyW/Edit-the-existing-202604181848.png",
     facts: [
-      { icon: "⚡", ru: "AI-инструменты: Kling 3.0, Nano Banana Pro, Seedance 2.0", en: "AI tools: Kling 3.0, Nano Banana Pro, Seedance 2.0" },
-      { icon: "🎨", ru: "Предметная съёмка, статика и анимация, брендинг", en: "Product visuals, static & animation, branding" },
-      { icon: "🌐", ru: "Работаю удалённо с клиентами по всему миру", en: "Working remotely with clients worldwide" },
-      { icon: "🔮", ru: "Каждый проект — уникальный визуальный нарратив", en: "Every project is a unique visual narrative" },
+      { icon: "⚡️", ru: "AI-инструменты: Kling 3.0, Nano Banana Pro, Seedance 2.0", en: "AI tools: Kling 3.0, Nano Banana Pro, Seedance 2.0" },
+      { icon: "🧩", ru: "Предметная съёмка, статика и анимация, брендинг", en: "Product visuals, static & animation, branding" },
+      { icon: "📍", ru: "Работаю удалённо с клиентами по всему миру", en: "Working remotely with clients worldwide" },
+      { icon: "✨", ru: "Каждый проект — уникальный визуальный нарратив", en: "Every project is a unique visual narrative" },
     ]
   },
 
@@ -203,6 +212,12 @@ section { position: relative; z-index: 2; }
   display: flex; align-items: center; justify-content: flex-start;
   padding: 54px 48px 80px; overflow: hidden;
 }
+#hero::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 1;
+  background: radial-gradient(ellipse 55% 80% at 18% 50%, rgba(10,10,10,.92) 0%, rgba(10,10,10,.6) 50%, transparent 100%);
+  pointer-events: none;
+}
 .hero-tl {
   position: absolute; left: 48px; top: 70px;
   font-size: 9px; color: var(--dim); letter-spacing: 3px;
@@ -312,7 +327,7 @@ section { position: relative; z-index: 2; }
 .about-accent-br { position: absolute; bottom: -10px; right: -10px; width: 44px; height: 44px; border-right: 2px solid var(--green); border-bottom: 2px solid var(--green); }
 .about-accent-tl { position: absolute; top: -10px; left: -10px; width: 44px; height: 44px; border-left: 1px solid var(--bord); border-top: 1px solid var(--bord); }
 
-.about-desc { font-family: var(--f-sub); font-size: 15px; line-height: 2; color: rgba(255,255,255,.55); margin-bottom: 36px; font-weight: 300; letter-spacing: .2px; }
+.about-desc { font-family: var(--f-sub); font-size: 15px; line-height: 2; color: rgba(255,255,255,.55); margin-bottom: 16px; font-weight: 300; letter-spacing: .2px; }
 .about-facts { display: flex; flex-direction: column; gap: 0; border-top: 1px solid var(--bord2); }
 .about-fact {
   display: flex; align-items: center; gap: 16px;
@@ -404,7 +419,7 @@ section { position: relative; z-index: 2; }
 
 /* ── CONTACT ────────────────────────────── */
 #contact { padding: 120px 48px 80px; max-width: 800px; margin: 0 auto; }
-.contact-cta { font-family: var(--f-sans); font-size: clamp(13px, 1.6vw, 16px); color: var(--muted); line-height: 1.85; margin-bottom: 48px; font-weight: 300; }
+.contact-cta { font-family: var(--f-sub); font-size: clamp(15px, 1.7vw, 18px); color: rgba(255,255,255,.7); line-height: 1.85; margin-bottom: 48px; font-weight: 300; }
 .contact-cards { display: flex; gap: 1px; background: var(--bord2); border: 1px solid var(--bord2); margin-bottom: 36px; }
 .cc { flex: 1; padding: 22px 24px; background: var(--bg); text-decoration: none; display: flex; align-items: flex-start; gap: 14px; transition: background .25s; }
 .cc:hover { background: var(--bg2); }
@@ -637,7 +652,7 @@ footer { padding: 22px 48px; border-top: 1px solid var(--bord2); display: flex; 
     ne.textContent = S.hero.name; ne.dataset.text = S.hero.name;
     document.getElementById('h-sub').textContent    = ru ? S.hero.subtitle_ru : S.hero.subtitle_en;
     document.getElementById('btn-port').textContent = ru ? 'Портфолио' : 'Portfolio';
-    document.getElementById('btn-cont').textContent = ru ? 'Связаться'  : 'Get in touch';
+    document.getElementById('btn-cont').textContent = ru ? '→ Связаться'  : '→ Get in touch';
     document.getElementById('nav-name').textContent = S.hero.name;
     document.getElementById('foot-name').textContent= S.hero.name;
     document.getElementById('foot-copy').textContent= '© '+new Date().getFullYear();
