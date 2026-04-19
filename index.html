@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AUSTIN — AI Creator</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=IBM+Plex+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=JetBrains+Mono:wght@300;400;700&family=Anonymous+Pro:wght@400;700&display=swap" rel="stylesheet">
 
 <script>
 /* ================================================================
@@ -83,8 +83,9 @@ html { scroll-behavior: smooth; }
   --white:  #e8e8e8;
   --bord:   rgba(0,230,118,.13);
   --bord2:  rgba(255,255,255,.07);
-  --f-mono: 'IBM Plex Mono', monospace;
-  --f-sans: 'IBM Plex Sans', sans-serif;
+  --f-mono: 'Share Tech Mono', monospace;
+  --f-sub:  'JetBrains Mono', monospace;
+  --f-sans: 'Anonymous Pro', monospace;
 }
 
 body {
@@ -153,7 +154,7 @@ nav {
 .nav-links a {
   font-size: 10px; letter-spacing: 3px; color: var(--muted);
   text-decoration: none; text-transform: uppercase; transition: color .2s;
-  position: relative;
+  position: relative; font-family: var(--f-sub);
 }
 .nav-links a::after {
   content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
@@ -186,6 +187,7 @@ section { position: relative; z-index: 2; }
 .s-tag {
   font-size: 10px; letter-spacing: 4px; color: var(--dim);
   margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+  font-family: var(--f-sub);
 }
 .s-tag::before { content: '//'; }
 .s-title {
@@ -228,6 +230,7 @@ section { position: relative; z-index: 2; }
   display: flex; align-items: center; gap: 12px;
   font-size: 11px; letter-spacing: 3px; color: var(--dim);
   margin-bottom: 28px;
+  font-family: var(--f-sub);
   animation: fadeup .6s ease both .1s;
 }
 .hero-badge-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: dotpulse 2s ease-in-out infinite; }
@@ -299,7 +302,6 @@ section { position: relative; z-index: 2; }
 .about-photo-bar { position: absolute; left: -18px; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, var(--green), transparent 80%); }
 .about-photo-frame {
   aspect-ratio: 3/4; width: 100%;
-  border: 1px solid var(--bord2);
   background: transparent;
   position: relative;
 }
@@ -309,7 +311,7 @@ section { position: relative; z-index: 2; }
 .about-accent-br { position: absolute; bottom: -10px; right: -10px; width: 44px; height: 44px; border-right: 2px solid var(--green); border-bottom: 2px solid var(--green); }
 .about-accent-tl { position: absolute; top: -10px; left: -10px; width: 44px; height: 44px; border-left: 1px solid var(--bord); border-top: 1px solid var(--bord); }
 
-.about-desc { font-family: var(--f-sans); font-size: 15px; line-height: 1.9; color: var(--muted); margin-bottom: 32px; font-weight: 300; }
+.about-desc { font-family: var(--f-sans); font-size: 15px; line-height: 1.9; color: var(--muted); margin-bottom: 32px; font-weight: 400; }
 .about-facts { display: flex; flex-direction: column; gap: 1px; }
 .about-fact {
   display: flex; align-items: flex-start; gap: 14px;
@@ -318,7 +320,7 @@ section { position: relative; z-index: 2; }
 }
 .about-fact:hover { border-left-color: var(--green); background: rgba(0,230,118,.03); }
 .af-icon { font-size: 14px; flex-shrink: 0; opacity: .65; margin-top: 2px; }
-.af-text { font-size: 12px; color: var(--muted); line-height: 1.65; }
+.af-text { font-size: 12px; color: var(--muted); line-height: 1.65; font-family: var(--f-sans); }
 
 /* ── PHOTOS ─────────────────────────────── */
 #photos { padding: 120px 48px; background: var(--bg2); }
@@ -422,6 +424,25 @@ footer { padding: 22px 48px; border-top: 1px solid var(--bord2); display: flex; 
 .rs.visible > *:nth-child(3){opacity:1;transform:none;transition-delay:.16s}
 .rs.visible > *:nth-child(4){opacity:1;transform:none;transition-delay:.24s}
 .rs.visible > *:nth-child(5){opacity:1;transform:none;transition-delay:.32s}
+
+/* ── LANG GLITCH ─────────────────────────── */
+@keyframes langGlitch {
+  0%   { opacity:1; clip-path:inset(0 0 100% 0); transform:none; }
+  8%   { clip-path:inset(20% 0 60% 0); transform:translateX(-4px); opacity:.7; }
+  16%  { clip-path:inset(50% 0 30% 0); transform:translateX(4px); opacity:.5; }
+  24%  { clip-path:inset(10% 0 80% 0); transform:translateX(-2px) skewX(-3deg); opacity:.8; }
+  32%  { clip-path:inset(0 0 0 0); transform:none; opacity:1; }
+  100% { clip-path:inset(0 0 0 0); transform:none; opacity:1; }
+}
+@keyframes langFlash {
+  0%,100% { opacity:1; }
+  10%,30%,50% { opacity:0; }
+  20%,40% { opacity:.6; }
+}
+.lang-switching {
+  animation: langGlitch .38s steps(1) forwards, langFlash .18s steps(1) forwards;
+  pointer-events: none;
+}
 
 /* ── MOBILE ─────────────────────────────── */
 @media (max-width: 900px) {
@@ -705,9 +726,26 @@ footer { padding: 22px 48px; border-top: 1px solid var(--bord2); display: flex; 
     });
   }
 
+  /* lang glitch helper */
+  function glitchSwitch(newLang, activeBtn, inactiveBtn) {
+    var targets = document.querySelectorAll('.hero-name, .s-title, .hero-sub, .hero-badge, .about-desc, .about-facts, .s-tag, #cont-cta');
+    targets.forEach(function(el) {
+      el.classList.remove('lang-switching');
+      void el.offsetWidth; // reflow
+      el.classList.add('lang-switching');
+      setTimeout(function(){ el.classList.remove('lang-switching'); }, 400);
+    });
+    setTimeout(function(){
+      lang = newLang;
+      activeBtn.classList.add('on');
+      inactiveBtn.classList.remove('on');
+      render();
+    }, 120);
+  }
+
   /* lang buttons */
-  document.getElementById('btn-ru').addEventListener('click',function(){ lang='ru'; this.classList.add('on'); document.getElementById('btn-en').classList.remove('on'); render(); });
-  document.getElementById('btn-en').addEventListener('click',function(){ lang='en'; this.classList.add('on'); document.getElementById('btn-ru').classList.remove('on'); render(); });
+  document.getElementById('btn-ru').addEventListener('click',function(){ glitchSwitch('ru', this, document.getElementById('btn-en')); });
+  document.getElementById('btn-en').addEventListener('click',function(){ glitchSwitch('en', this, document.getElementById('btn-ru')); });
 
   render();
 
